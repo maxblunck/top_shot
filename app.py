@@ -28,26 +28,26 @@ app.layout = html.Div(
         dcc.Graph(id='my-plot', figure=fig),
         dcc.Input(id='my-input', placeholder="Paste Top Shot Moment URL here...", type='text', size='120'),
         html.Br(),
-        html.Div(id='my-output')
+        dcc.Input(id='min-price', placeholder="min price", type='text', size='20'),
+        dcc.Input(id='max-price', placeholder="max price", type='text', size='20'),
+
     ])
 
 
 @app.callback(
-    Output(component_id='my-plot', component_property='figure'),
-    Input(component_id='my-input', component_property='value')
+    [
+        Output(component_id='my-title', component_property='children'),
+        Output(component_id='my-plot', component_property='figure')
+    ],
+    [
+        Input(component_id='my-input', component_property='value'),
+        Input(component_id='min-price', component_property='value'),
+        Input(component_id='max-price', component_property='value')
+    ]
 )
-def update_plot(input_val):
-    title, fig = data.plot_serials(input_val)
-    return fig
-
-
-@app.callback(
-    Output(component_id='my-title', component_property='children'),
-    Input(component_id='my-input', component_property='value')
-)
-def update_title(input_val):
-    title, fig = data.plot_serials(input_val)
-    return title
+def update_plot(url, min, maxi):
+    title, fig = data.plot_serials(url, min, maxi)
+    return title, fig
 
 
 if __name__ == '__main__':
