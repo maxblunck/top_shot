@@ -30,6 +30,9 @@ app.layout = html.Div(
         html.Br(),
         dcc.Input(id='min-price', placeholder="min price", type='text', size='20'),
         dcc.Input(id='max-price', placeholder="max price", type='text', size='20'),
+        html.Br(),
+        dcc.Input(id='min-ser', placeholder="lowest serial", type='text', size='20'),
+        dcc.Input(id='max-ser', placeholder="highest serial", type='text', size='20'),
 
     ])
 
@@ -42,11 +45,13 @@ app.layout = html.Div(
     [
         Input(component_id='my-input', component_property='value'),
         Input(component_id='min-price', component_property='value'),
-        Input(component_id='max-price', component_property='value')
+        Input(component_id='max-price', component_property='value'),
+        Input(component_id='min-ser', component_property='value'),
+        Input(component_id='max-ser', component_property='value')
     ]
 )
-def update_plot(url, min, maxi):
-    title, fig = data.plot_serials(url, min, maxi)
+def update_plot(url, min_price, max_price, min_ser, max_ser):
+    title, fig = data.plot_serials(url, min_price, max_price, min_ser, max_ser)
     return title, fig
 
 
