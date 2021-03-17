@@ -34,7 +34,17 @@ app.layout = html.Div(
         html.Br(),
         dcc.Input(id='min-ser', placeholder="lowest serial", type='text', size='20'),
         dcc.Input(id='max-ser', placeholder="highest serial", type='text', size='20'),
-        html.Button('Reset', id='reset-ser')
+        html.Button('Reset', id='reset-ser'),
+        html.Br(),
+        dcc.Dropdown(
+            id='reduce-option',
+            options=[
+                {'label': 'All Serials', 'value': 'all'},
+                {'label': 'Lowest Serial per Price', 'value': 'lowest'}
+            ],
+            value='all',
+            style={"width": "50%"},
+        )
     ])
 
 
@@ -48,11 +58,12 @@ app.layout = html.Div(
         Input(component_id='min-price', component_property='value'),
         Input(component_id='max-price', component_property='value'),
         Input(component_id='min-ser', component_property='value'),
-        Input(component_id='max-ser', component_property='value')
+        Input(component_id='max-ser', component_property='value'),
+        Input(component_id='reduce-option', component_property='value'),
     ]
 )
-def update_plot(url, min_price, max_price, min_ser, max_ser):
-    title, fig = data.plot_serials(url, min_price, max_price, min_ser, max_ser)
+def update_plot(url, min_price, max_price, min_ser, max_ser, reduce):
+    title, fig = data.plot_serials(url, reduce, min_price, max_price, min_ser, max_ser)
     return title, fig
 
 
