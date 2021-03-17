@@ -30,10 +30,11 @@ app.layout = html.Div(
         html.Br(),
         dcc.Input(id='min-price', placeholder="min price", type='text', size='20'),
         dcc.Input(id='max-price', placeholder="max price", type='text', size='20'),
+        html.Button('Reset', id='reset-price'),
         html.Br(),
         dcc.Input(id='min-ser', placeholder="lowest serial", type='text', size='20'),
         dcc.Input(id='max-ser', placeholder="highest serial", type='text', size='20'),
-
+        html.Button('Reset', id='reset-ser')
     ])
 
 
@@ -53,6 +54,24 @@ app.layout = html.Div(
 def update_plot(url, min_price, max_price, min_ser, max_ser):
     title, fig = data.plot_serials(url, min_price, max_price, min_ser, max_ser)
     return title, fig
+
+
+@app.callback(
+    Output(component_id='min-price', component_property='value'),
+    Output(component_id='max-price', component_property='value'),
+    Input(component_id='reset-price', component_property='n_clicks')
+)
+def reset_price(value):
+    return None, None
+
+
+@app.callback(
+    Output(component_id='min-ser', component_property='value'),
+    Output(component_id='max-ser', component_property='value'),
+    Input(component_id='reset-ser', component_property='n_clicks')
+)
+def reset_ser(value):
+    return None, None
 
 
 if __name__ == '__main__':
