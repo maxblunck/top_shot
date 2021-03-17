@@ -20,15 +20,29 @@ def plot_serials(url, min_price=None, max_price=None, min_ser=None, max_ser=None
     df['Serial Nr'] = df.flowSerialNumber.astype(int)
     df['Price'] = df.price.astype(float)
 
+
     if min_price or max_price:
+        min_price, max_price = parse_numbers((min_price, max_price))
         df = filter_price(df, min_price, max_price)
 
     if min_ser or max_ser:
+        min_ser, max_ser = parse_numbers((min_ser, max_ser))
         df = filter_serial(df, min_ser, max_ser)
 
     title = soup.title.text
     fig = px.scatter(df, x='Price', y='Serial Nr')
     return title, fig
+
+
+def parse_numbers(numbers):
+    res = []
+    for num in numbers:
+        if num and "k" in num:
+            stem = num.split("k")[0]
+            res.append(int(stem+"000"))
+        else:
+            res.append(num)
+    return tuple(res)
 
 
 def filter_price(df, min, maxi):
